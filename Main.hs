@@ -71,7 +71,7 @@ perspectiveMatrix =
                ,[ 0,  0,  1,  1 ]
                ,[ 0,  0,  0,  0 ] ]
 
-viewScale = 200
+viewScale = 150
 
 -- | Namespace needed for svg elements.
 svgNamespace = Just "http://www.w3.org/2000/svg"
@@ -116,7 +116,7 @@ showAsGroup transform points = do
 -- other.
 view :: MonadWidget t m => Matrix Float -> m ()
 view transform = do 
-    let points = [(0,0), (0,0.5), (1,0.5), (1,0)]
+    let points = [(0,0), (0,1), (2,1), (2,0)]
 
         transform2d transform points 
             = fromMatrix $ transformPoints transform $ toMatrix points
@@ -142,6 +142,8 @@ main = mainWidget $ do
     -- simplest example ; just show effect of identity matrix
     -- (plus scale and translation for viewing)
     (view $            identityMatrix
+
+             -- scale and translate to display 
             `multStd2` scaleMatrix (viewScale/4)
             `multStd2` translationMatrix (viewScale/2,viewScale/2,0) )
 
@@ -150,8 +152,14 @@ main = mainWidget $ do
     -- Simplest example with perspective viewing trasformations; 
     -- Things are working fine in this case with all z coords zero.
     (view $            identityMatrix
+
+            -- translate by one unit along z axis.
             `multStd2` perspectivePrepMatrix
+
+            -- apply perspective transformation
             `multStd2` perspectiveMatrix
+
+             -- scale and translate to display 
             `multStd2` scaleMatrix (viewScale/4)
             `multStd2` translationMatrix (viewScale/2,viewScale/2,0) )
 
@@ -162,9 +170,14 @@ main = mainWidget $ do
     -- as expected (right side shorter due to perspective) 
     -- but Green does not.
     (view $            identityMatrix
-            `multStd2` zxRotationMatrix (pi / 4)
+            -- rotate out of z==0 plane
+            `multStd2` zxRotationMatrix (pi / 30)
+
+            -- apply perspective transformations.
             `multStd2` perspectivePrepMatrix
             `multStd2` perspectiveMatrix
+
+             -- scale and translate to display 
             `multStd2` scaleMatrix (viewScale/4)
             `multStd2` translationMatrix (viewScale/2,viewScale/2,0) )
 
@@ -174,12 +187,17 @@ main = mainWidget $ do
     -- but no perspective projection.  Red and Green display 
     -- identically ( as expected ).
     (view $            identityMatrix
+            -- composite translation and rotation.
             `multStd2` translationMatrix (1.15,1.2,1.0) 
-            `multStd2` xyRotationMatrix (pi / 3)
-            `multStd2` zxRotationMatrix (pi / 4)
-            `multStd2` yzRotationMatrix (pi / 4)
-            `multStd2` perspectivePrepMatrix
+            `multStd2` xyRotationMatrix (pi / 4)
+            `multStd2` zxRotationMatrix (pi / 5)
+            `multStd2` yzRotationMatrix (pi / 3)
+
+            -- Don't do perspective transformation this time.
+            -- `multStd2` perspectivePrepMatrix
             -- `multStd2` perspectiveMatrix
+
+             -- scale and translate to display 
             `multStd2` scaleMatrix (viewScale/4)
             `multStd2` translationMatrix (viewScale/2,viewScale/2,0) )
 
@@ -189,11 +207,17 @@ main = mainWidget $ do
     -- no longer display to same location (Green goes off screen 
     -- entirely).
     (view $            identityMatrix
+
+            -- composite translation and rotation.
             `multStd2` translationMatrix (1.15,1.2,1.0) 
-            `multStd2` xyRotationMatrix (pi / 3)
-            `multStd2` zxRotationMatrix (pi / 4)
-            `multStd2` yzRotationMatrix (pi / 4)
+            `multStd2` xyRotationMatrix (pi / 4)
+            `multStd2` zxRotationMatrix (pi / 5)
+            `multStd2` yzRotationMatrix (pi / 3)
+
+            -- apply perspective transformations.
             `multStd2` perspectivePrepMatrix
             `multStd2` perspectiveMatrix
+
+             -- scale and translate to display 
             `multStd2` scaleMatrix (viewScale/4)
             `multStd2` translationMatrix (viewScale/2,viewScale/2,0) )
