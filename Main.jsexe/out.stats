@@ -10,10 +10,10 @@ ghcjs_B7KLFJ07Vte3zPHAgRIBTb:10604
 ghcjs_D7BYGeMTlMGF2My8KZzKUS:130707
 ghcjs_Kc7TQ2cEDg1F5e5cgY2Vuk:6588
 integer-gmp:             20492
-main:                    46529
+main:                    44453
 matri_682HBa36TWs8HIx1KnWQ3t:31290
 primi_293YT17zdlWL9QJgnLTQSn:2385
-refle_BP42iAL8rA7IBOuWCaV0zs:377891
+refle_BP42iAL8rA7IBOuWCaV0zs:377885
 refle_IbNW0IEhD2N2cZrEG6FTBQ:351754
 reftf_JOU40Nd0lxyACBtr3v80Qj:1202
 text_1ffW5NTi2SPHBcBuYSkgjk:19877
@@ -125,7 +125,7 @@ integer-gmp
     GHC.Integer.Type:                   20159
 
 main
-    Main:                               46529
+    Main:                               44453
 
 matri_682HBa36TWs8HIx1KnWQ3t
     Data.Matrix:                        31290
@@ -139,7 +139,7 @@ refle_BP42iAL8rA7IBOuWCaV0zs
     Reflex.Class:                       10259
     Reflex.Dynamic:                     845
     Reflex.Host.Class:                  2209
-    Reflex.Spider.Internal:             361353
+    Reflex.Spider.Internal:             361347
 
 refle_IbNW0IEhD2N2cZrEG6FTBQ
     Reflex.Dom.Class:                   6229
@@ -176,5 +176,5 @@ vecto_FNLwpzrmeRC6Ra1RihE2cq
 
 
 
-packed metadata: 343344
+packed metadata: 343479
 

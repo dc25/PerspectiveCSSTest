@@ -72,6 +72,8 @@ perspectiveMatrix =
                ,[ 0,  0,  0,  0 ] ]
 
 viewScale = 150
+displayScale = viewScale/4
+displayCenter = (viewScale/3, viewScale/3, 0)
 
 -- | Namespace needed for svg elements.
 svgNamespace = Just "http://www.w3.org/2000/svg"
@@ -96,6 +98,7 @@ showPolygon color pts = do
                            ) $ return ()
     return ()
 
+-- convert transform to string and apply to group as style.
 showAsGroup :: MonadWidget t m => Matrix Float -> [(Float,Float)]  -> m ()
 showAsGroup transform points = do
     let transformToString  = intercalate ", " . fmap show . concat . toLists
@@ -141,17 +144,17 @@ main = mainWidget $ do
 
     -- simplest example ; just show effect of identity matrix
     -- (plus scale and translation for viewing)
-    (view $            identityMatrix
+    view $            identityMatrix
 
              -- scale and translate to display 
-            `multStd2` scaleMatrix (viewScale/4)
-            `multStd2` translationMatrix (viewScale/2,viewScale/2,0) )
+            `multStd2` scaleMatrix displayScale
+            `multStd2` translationMatrix displayCenter 
 
     el "br" $ return ()
 
     -- Simplest example with perspective viewing trasformations; 
     -- Things are working fine in this case with all z coords zero.
-    (view $            identityMatrix
+    view $            identityMatrix
 
             -- translate by one unit along z axis.
             `multStd2` perspectivePrepMatrix
@@ -160,8 +163,8 @@ main = mainWidget $ do
             `multStd2` perspectiveMatrix
 
              -- scale and translate to display 
-            `multStd2` scaleMatrix (viewScale/4)
-            `multStd2` translationMatrix (viewScale/2,viewScale/2,0) )
+            `multStd2` scaleMatrix displayScale
+            `multStd2` translationMatrix displayCenter 
 
     el "br" $ return ()
 
@@ -169,7 +172,8 @@ main = mainWidget $ do
     -- some z coords greater than zero.  Now Red rectangle looks
     -- as expected (right side shorter due to perspective) 
     -- but Green does not.
-    (view $            identityMatrix
+    view $            identityMatrix
+
             -- rotate out of z==0 plane
             `multStd2` zxRotationMatrix (pi / 30)
 
@@ -178,15 +182,16 @@ main = mainWidget $ do
             `multStd2` perspectiveMatrix
 
              -- scale and translate to display 
-            `multStd2` scaleMatrix (viewScale/4)
-            `multStd2` translationMatrix (viewScale/2,viewScale/2,0) )
+            `multStd2` scaleMatrix displayScale
+            `multStd2` translationMatrix displayCenter 
 
     el "br" $ return ()
 
     -- More complicated example with composite translations, rotations
     -- but no perspective projection.  Red and Green display 
     -- identically ( as expected ).
-    (view $            identityMatrix
+    view $            identityMatrix
+
             -- composite translation and rotation.
             `multStd2` translationMatrix (1.15,1.2,1.0) 
             `multStd2` xyRotationMatrix (pi / 4)
@@ -198,15 +203,14 @@ main = mainWidget $ do
             -- `multStd2` perspectiveMatrix
 
              -- scale and translate to display 
-            `multStd2` scaleMatrix (viewScale/4)
-            `multStd2` translationMatrix (viewScale/2,viewScale/2,0) )
+            `multStd2` scaleMatrix displayScale
+            `multStd2` translationMatrix displayCenter 
 
     el "br" $ return ()
 
-    -- Add perspective to example above and Red and Green
-    -- no longer display to same location (Green goes off screen 
-    -- entirely).
-    (view $            identityMatrix
+    -- Add perspective to example above. Red and Green
+    -- no longer display to same location. Green goes off screen.
+    view $            identityMatrix
 
             -- composite translation and rotation.
             `multStd2` translationMatrix (1.15,1.2,1.0) 
@@ -219,5 +223,5 @@ main = mainWidget $ do
             `multStd2` perspectiveMatrix
 
              -- scale and translate to display 
-            `multStd2` scaleMatrix (viewScale/4)
-            `multStd2` translationMatrix (viewScale/2,viewScale/2,0) )
+            `multStd2` scaleMatrix displayScale
+            `multStd2` translationMatrix displayCenter
