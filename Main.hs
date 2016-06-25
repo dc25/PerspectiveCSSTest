@@ -108,6 +108,12 @@ showAsGroup transform points = do
     elDynAttrNS' svgNamespace "g" (constDyn attrs) $ showPolygon "Green" points
     return ()
 
+-- Display Red and Green rectangles to compare computing transforms
+-- "by hand" and using css to do transforms.  Show two SVG elements
+-- containing the Red and Green rectangles - one with the Red on top
+-- and one with the Green on top.  If they display identically then 
+-- the Red should be visible in one SVG element and the Green in the 
+-- other.
 view :: MonadWidget t m => Matrix Float -> m ()
 view transform = do 
     let points = [(0,0), (0,0.5), (1,0.5), (1,0)]
